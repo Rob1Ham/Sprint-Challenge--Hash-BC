@@ -84,6 +84,6 @@ if __name__ == '__main__':
             totals = requests.get(url=node + "/totals")
             totals = totals.json()
             print("Total coins mined: " +
-                  str(totals.get('totals')['Joshua Gonzalez (shrimp)\n']))
+                  str(totals.get('totals')['Joshua Gonzalez (shrimp)']))
         else:
             print(data.get('message'))

@@ -46,13 +46,8 @@ def valid_proof(last_hash, proof):
 
     guess = f'{proof}'.encode()
     guess_hash = hashlib.sha256(guess).hexdigest()
-    if str(last_hash)[-6:] == guess_hash[:6]:
-        print('compare: ', str(last_hash)[-6:], guess_hash[:6])
-        return True
-    else:
-        return False
 
-    # return str(last_hash)[-6:] == guess_hash[:6]
+    return str(last_hash)[-6:] == guess_hash[:6]
 
 
 if __name__ == '__main__':
@@ -85,9 +80,10 @@ if __name__ == '__main__':
 
         r = requests.post(url=node + "/mine", json=post_data)
         data = r.json()
-        print(json.dumps(data))
-        if data.get('message') == 'New Block Forged':
-            coins_mined += 1
-            print("Total coins mined: " + str(coins_mined))
+        if data.get('proof') == new_proof:
+            totals = requests.get(url=node + "/totals")
+            totals = totals.json()
+            print("Total coins mined: " +
+                  str(totals.get('totals')['Joshua Gonzalez (shrimp)\n']))
         else:
             print(data.get('message'))

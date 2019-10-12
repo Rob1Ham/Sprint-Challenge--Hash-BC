@@ -15,10 +15,7 @@ def get_indices_of_item_weights(weights, length, limit):
     for i in range(0, length):
         result = hash_table_retrieve(ht, (limit - weights[i]))
         if result is not None:
-            if result > i:
-                return (result, i)
-            else:
-                return (result, i)
+            return (result, i)
 
     return None
 

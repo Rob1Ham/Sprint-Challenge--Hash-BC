@@ -23,8 +23,20 @@ def proof_of_work(last_proof):
     start = timer()
 
     print("Searching for next proof")
-    proof = 0
+    #changing my starting nonce to get different variance from the rest of the group
+    #this should be called a nonce... not a fan of calling it proof as it isn't the proof, the proof is the alignment boolean condition
+    #in the valid_proof statement
+    proof = 100000000000
     #  TODO: Your code here
+
+    #getting the hash of the work attempt
+    last_proof_byte = f'{last_proof}'.encode()
+    #converting the previous proof to SHA256
+    last_proof_hash = hashlib.sha256(proof_byte).hexdigest()
+    #check if the proof is valid, if it is not, incriment the proof by 1 and try again!
+    while valid_proof(last_proof_hash, proof) is False:
+        proof += 1
+
 
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
@@ -40,6 +52,17 @@ def valid_proof(last_hash, proof):
     """
 
     # TODO: Your code here!
+
+    #takes the nonce value and converts it to SHA256
+    byte_guess = f'{proof}'.encode()
+    hashed_guess = hashlib.sha256(block_guess).hexdigest()
+
+    #for the multi-ourobrous proof of work algorithim
+    #the last 6 digits of the hash need to equal the first 6 digits of the new hash
+    #this boolean check goes into the while statement above to see if a valid bock was found.
+    return last_hash[-6:] == hashed_guess[:6]
+
+
     pass
 
 
